@@ -9,6 +9,11 @@
     // See also https://aka.ms/tsconfig/module
     "module": "ESNext",
     "target": "ES6",
+    "lib": [
+      "es2019",  
+      "dom",        
+      "dom.iterable" 
+    ],
     "types": [],
     "noImplicitAny": true,
     "esModuleInterop": true,

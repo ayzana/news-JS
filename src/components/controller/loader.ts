@@ -1,16 +1,16 @@
-import { Endpoint, RequestOptions, GeneralCallback } from '../types';
+import type { Endpoint, RequestOptions, GeneralCallback } from '../types/types';
 class Loader {
- baseLink: string;
- options: Record<string, string>;
+    baseLink: string;
+    options: Record<string, string>;
 
     constructor(baseLink: string, options: Record<string, string>) {
         this.baseLink = baseLink;
         this.options = options;
     }
 
- getResp(
-    { endpoint, options = {} }: { endpoint: Endpoint; options?: RequestOptions },
-    callback: GeneralCallback = () => {
+    getResp(
+        { endpoint, options = {} }: { endpoint: Endpoint; options?: RequestOptions },
+        callback: GeneralCallback = () => {
             console.error('No callback for GET response');
         }
     ): void {
@@ -27,8 +27,14 @@ class Loader {
         return res;
     }
 
-    makeUrl(options:RequestOptions, endpoint: Endpoint): string {
-        const urlOptions: Record<string, string> ={ ...this.options, ...options };
+    makeUrl(options: RequestOptions, endpoint: Endpoint): string {
+        const urlOptions: Record<string, string> = {
+            ...this.options,
+            ...(Object.fromEntries(Object.entries(options).filter(([, value]) => value !== undefined)) as Record<
+                string,
+                string
+            >),
+        };
         let url = `${this.baseLink}${endpoint}?`;
 
         Object.keys(urlOptions).forEach((key: string) => {
