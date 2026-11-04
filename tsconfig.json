@@ -1,5 +1,6 @@
 {
   // Visit https://aka.ms/tsconfig to read more about this file
+  
   "compilerOptions": {
     // File Layout
     // "rootDir": "./src",
@@ -7,20 +8,20 @@
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
-    "module": "ESNext",
+    "module": "ESNext",    
+    "moduleResolution": "bundler",
     "target": "ES6",
     "lib": [
       "es2019",  
       "dom",        
       "dom.iterable" 
     ],
-    "types": [],
     "noImplicitAny": true,
     "esModuleInterop": true,
      "forceConsistentCasingInFileNames": true,
     // For nodejs:
     // "lib": ["esnext"],
-    // "types": ["node"],
+    "types": ["node"],
     // and npm install -D @types/node
 
     // Other Outputs
