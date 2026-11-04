@@ -1,14 +1,14 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/index.ts', // Adjust path to your main entry file (rename index.js to index.ts if needed)
-  output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
-  },
+    mode: 'development',
+    entry: './src/index.ts',
+    output: {
+        filename: 'bundle.js',
+        path: path.resolve(__dirname, 'dist'),
+    },
   resolve: {
-    // Add '.ts' and '.js' as resolvable extensions
-    extensions: ['.ts', '.js'],
+   extensions: ['.ts', '.js'],
   },
   module: {
     rules: [
