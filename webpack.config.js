@@ -1,40 +1,48 @@
-const path = require('path');
-const { merge } = require('webpack-merge');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const DotenvWebpackPlugin = require('dotenv-webpack');
+import path from 'path';
+import { fileURLToPath } from 'url';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import webpack from 'webpack';
+import dotenv from 'dotenv';
+dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const baseConfig = {
-    entry: path.resolve(__dirname, './src/index.js'),
+export default {
     mode: 'development',
+    entry: './src/index.ts',
+    output: {
+        filename: 'bundle.js',
+        path: path.resolve(__dirname, 'dist'),
+        clean: true,
+    },
+    resolve: {
+        extensions: ['.tsx', '.ts', '.js'],
+    },
     module: {
         rules: [
             {
-                test: /\.css$/i,
+                test: /\.ts$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+            },
+            {
+                test: /\.css$/,
                 use: ['style-loader', 'css-loader'],
             },
         ],
     },
-    resolve: {
-        extensions: ['.js'],
-    },
-    output: {
-        filename: 'index.js',
-        path: path.resolve(__dirname, './dist'),
-    },
     plugins: [
-        new DotenvWebpackPlugin(),
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, './src/index.html'),
-            filename: 'index.html',
+            template: './src/index.html',
         }),
-        new CleanWebpackPlugin(),
+        new webpack.DefinePlugin({
+            'process.env.API_URL': JSON.stringify(process.env.API_URL),
+            'process.env.API_KEY': JSON.stringify(process.env.API_KEY),
+        }),
     ],
-};
-
-module.exports = ({ mode }) => {
-    const isProductionMode = mode === 'prod';
-    const envConfig = isProductionMode ? require('./webpack.prod.config') : require('./webpack.dev.config');
-
-    return merge(baseConfig, envConfig);
+    devServer: {
+        static: path.join(__dirname, 'dist'),
+        compress: true,
+        port: 8080,
+    },
 };
