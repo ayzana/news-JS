@@ -1,3 +1,4 @@
+import './sources.css';
 import type { Source } from '../../types/types';
 declare class Sources {
     draw(data: Source[]): void;

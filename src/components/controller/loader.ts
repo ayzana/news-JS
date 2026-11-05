@@ -35,7 +35,7 @@ class Loader {
                 string
             >),
         };
-        let url = `${this.baseLink}${endpoint}?`;
+        let url = `${this.baseLink}/${endpoint}?`;
 
         Object.keys(urlOptions).forEach((key: string) => {
             url += `${key}=${urlOptions[key]}&`;
@@ -46,10 +46,10 @@ class Loader {
 
     load(method: string, endpoint: Endpoint, callback: GeneralCallback, options: RequestOptions = {}): void {
         fetch(this.makeUrl(options, endpoint), { method })
-            .then((res: Response) => this.errorHandler(res))
-            .then((res: Response) => res.json())
-            .then((data: GeneralCallback extends (data: infer U) => void ? U : never) => callback(data))
-            .catch((err: Error) => console.error(err));
+            .then(this.errorHandler.bind(this))
+            .then((res) => res.json())
+            .then((data) => callback(data))
+            .catch((err) => console.error(err));
     }
 }
 

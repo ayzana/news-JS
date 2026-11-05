@@ -1,7 +1,9 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-
+import webpack from 'webpack';
+import dotenv from 'dotenv';
+dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -14,7 +16,7 @@ export default {
         clean: true,
     },
     resolve: {
-        extensions: ['.ts', '.js'],
+        extensions: ['.tsx', '.ts', '.js'],
     },
     module: {
         rules: [
@@ -32,6 +34,10 @@ export default {
     plugins: [
         new HtmlWebpackPlugin({
             template: './src/index.html',
+        }),
+        new webpack.DefinePlugin({
+            'process.env.API_URL': JSON.stringify(process.env.API_URL),
+            'process.env.API_KEY': JSON.stringify(process.env.API_KEY),
         }),
     ],
     devServer: {

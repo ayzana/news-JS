@@ -1,3 +1,4 @@
+import './news.css';
 import type { Article } from '../../types/types';
 declare class News {
     draw(data: Article[]): void;
